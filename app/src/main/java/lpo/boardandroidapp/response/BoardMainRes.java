@@ -17,6 +17,7 @@ public class BoardMainRes {
         return total;
     }
 
+    @SerializedName("list")
     public ArrayList<list> list = new ArrayList<>();
 
     public ArrayList<BoardMainRes.list> getList() {
@@ -24,15 +25,15 @@ public class BoardMainRes {
     }
 
     public class list {
-        @SerializedName("idx")
+        @SerializedName("IDX")
         public String idx;
-        @SerializedName("rnum")
+        @SerializedName("RNUM")
         public String rnum;
-        @SerializedName("hit_cnt")
+        @SerializedName("HIT_CNT")
         public String hit_cnt;
-        @SerializedName("crea_dtm")
+        @SerializedName("CREA_DTM")
         public String crea_dtm;
-        @SerializedName("title")
+        @SerializedName("TITLE")
         public String title;
 
         public String getTitle() {

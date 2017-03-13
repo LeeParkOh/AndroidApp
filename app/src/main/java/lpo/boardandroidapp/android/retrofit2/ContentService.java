@@ -10,8 +10,6 @@ import retrofit2.http.Path;
  */
 
 public interface ContentService {
-//    @GET("/sample/selectBoardList.do")
-//    Call<BoardMainRes> getContent(@Path("title") String title);
 
     @GET("/sample/selectBoardList.do")
     Call<BoardMainRes> getBoard();

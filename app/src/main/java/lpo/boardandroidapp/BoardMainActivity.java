@@ -44,7 +44,6 @@ public class BoardMainActivity extends Activity {
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-//        Call<BoardMainRes> call = service.getContent("title 값");
         Call<BoardMainRes> call = service.getBoard();
 
         call.enqueue(new Callback<BoardMainRes>() {
@@ -63,8 +62,5 @@ public class BoardMainActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
-
-
 }
