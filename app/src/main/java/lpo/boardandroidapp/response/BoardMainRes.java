@@ -10,6 +10,15 @@ import java.util.ArrayList;
 
 public class BoardMainRes {
 
+    protected static final String TAG = "BoardMainRes";
+
+    public ArrayList<BoardMainRes> getItems(ArrayList<BoardMainRes> list) {
+        if (list == null) {
+            return null;
+        }
+        return list;
+    }
+
     @SerializedName("total")
     public String total;
 
