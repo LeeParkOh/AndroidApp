@@ -31,11 +31,11 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.idxTv.setText(mBoardMainRes.list.get(position).idx);
-        holder.rnumTv.setText(mBoardMainRes.list.get(position).rnum);
-        holder.hitCntTv.setText(mBoardMainRes.list.get(position).hit_cnt);
-        holder.creaDtmTv.setText(mBoardMainRes.list.get(position).crea_dtm);
-        holder.titleTv.setText(mBoardMainRes.list.get(position).title);
+        holder.idxTv.setText("IDX = " + mBoardMainRes.list.get(position).idx);
+        holder.rnumTv.setText("RNUM = " + mBoardMainRes.list.get(position).rnum);
+        holder.hitCntTv.setText("HIT_CNT = " + mBoardMainRes.list.get(position).hit_cnt);
+        holder.creaDtmTv.setText("CREA_DTM = " + mBoardMainRes.list.get(position).crea_dtm);
+        holder.titleTv.setText("TITLE = " + mBoardMainRes.list.get(position).title);
 
     }
 

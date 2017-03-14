@@ -31,8 +31,9 @@ public class BoardMainActivity extends Activity {
     private Button btn;
     private Context mContext;
     private BoardMainAdapter bmAdapter;
-    private ArrayList<BoardMainRes> mArrayList;
     private BoardMainRes mBoardMainRes;
+
+    private final String params = "FEELFOS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,10 @@ public class BoardMainActivity extends Activity {
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-        Call<BoardMainRes> call = service.getBoard();
+
+//        Call<BoardMainRes> call = service.getBoard();
+        // 파라미터 테스트
+        Call<BoardMainRes> call = service.getBoard(params);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override
@@ -75,14 +79,15 @@ public class BoardMainActivity extends Activity {
                     mBoardMainRes = response.body();
                     bmAdapter = new BoardMainAdapter(mBoardMainRes);
                     mRecyclerView.setAdapter(bmAdapter);
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "not success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Not Success", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BoardMainRes> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
