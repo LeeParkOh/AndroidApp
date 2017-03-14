@@ -1,14 +1,10 @@
 package lpo.boardandroidapp.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-
 import lpo.boardandroidapp.R;
 import lpo.boardandroidapp.response.BoardMainRes;
 
@@ -18,10 +14,10 @@ import lpo.boardandroidapp.response.BoardMainRes;
 
 public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.ViewHolder>{
 
-    private ArrayList<BoardMainRes> mBoardMainResRes;
+    private BoardMainRes mBoardMainRes;
 
-    public BoardMainAdapter(ArrayList<BoardMainRes> boardMainRes) {
-        mBoardMainResRes = boardMainRes;
+    public BoardMainAdapter(BoardMainRes boardMainRes) {
+        mBoardMainRes = boardMainRes;
     }
 
     @Override
@@ -34,20 +30,19 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        mBoardMainResRes.get(position);
-        holder.idxTv.setText(mBoardMainResRes.get(position).getList().get(position).getIdx());
+
+        holder.idxTv.setText(mBoardMainRes.list.get(position).idx);
+        holder.rnumTv.setText(mBoardMainRes.list.get(position).rnum);
+        holder.hitCntTv.setText(mBoardMainRes.list.get(position).hit_cnt);
+        holder.creaDtmTv.setText(mBoardMainRes.list.get(position).crea_dtm);
+        holder.titleTv.setText(mBoardMainRes.list.get(position).title);
+
     }
 
     @Override
     public int getItemCount() {
-        return mBoardMainResRes.size();
+        return mBoardMainRes.list.size();
     }
-
-//    public void updateMainBoardData(BoardMainRes bmRes) {
-//        mBoardMainResRes = bmRes;
-//        notifyDataSetChanged();
-//    }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 

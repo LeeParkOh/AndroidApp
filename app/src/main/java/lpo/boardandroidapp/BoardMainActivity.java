@@ -31,8 +31,8 @@ public class BoardMainActivity extends Activity {
     private Button btn;
     private Context mContext;
     private BoardMainAdapter bmAdapter;
-    private ArrayList<BoardMainRes> mBoardMainRes;
-    private BoardMainRes test;
+    private ArrayList<BoardMainRes> mArrayList;
+    private BoardMainRes mBoardMainRes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,6 @@ public class BoardMainActivity extends Activity {
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
                 retrofitTest();
-                bmAdapter = new BoardMainAdapter(mBoardMainRes);
-                mRecyclerView.setAdapter(bmAdapter);
             }
         });
 
@@ -56,8 +54,6 @@ public class BoardMainActivity extends Activity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
-//        bmAdapter = new BoardMainAdapter();
-        mRecyclerView.setAdapter(bmAdapter);
 
     }
 
@@ -76,11 +72,9 @@ public class BoardMainActivity extends Activity {
             @Override
             public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
                 if (response.isSuccessful()) {
-//                    mBoardMainRes = response.body();
-//                    Toast.makeText(getApplicationContext(), "success = " + bmRes.list.get(0).getTitle(), Toast.LENGTH_SHORT).show();
-//                    ArrayList<BoardMainRes> dataList = mBoardMainRes;
-//                    bmAdapter.updateMainBoardData(mBoardMainRes);
-
+                    mBoardMainRes = response.body();
+                    bmAdapter = new BoardMainAdapter(mBoardMainRes);
+                    mRecyclerView.setAdapter(bmAdapter);
                 } else {
                     Toast.makeText(getApplicationContext(), "not success", Toast.LENGTH_SHORT).show();
                 }
