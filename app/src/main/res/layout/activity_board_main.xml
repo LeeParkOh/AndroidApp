@@ -12,28 +12,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="lpo.boardandroidapp.BoardMainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_above="@id/view_pager">
 
-        <Button
-            android:id="@+id/send_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="보내기"/>
+        <!--<Button-->
+            <!--android:id="@+id/send_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="보내기"/>-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/main_item_list"
             android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="LinearLayoutManager"
             tools:mContext="lpo.boardandroidapp.BoardMainActivity"
             tools:listitem="@layout/main_item">
 
         </android.support.v7.widget.RecyclerView>
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+    </android.support.v4.view.ViewPager>
 
 </RelativeLayout>

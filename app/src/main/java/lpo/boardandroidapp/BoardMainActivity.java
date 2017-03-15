@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BoardMainActivity extends Activity {
 
-    protected static final String TAG = "BoardMainActivity";
+    protected static final String TAG = "BoardMain  Activity";
     private final String baseUrl = "http://feelfos.cafe24.com/";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -43,6 +43,7 @@ public class BoardMainActivity extends Activity {
         btn = (Button) findViewById(R.id.send_btn);
         btn.setOnClickListener(new Button.OnClickListener() {
             @Override
+
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
                 retrofitTest();
@@ -68,9 +69,9 @@ public class BoardMainActivity extends Activity {
 
         ContentService service = retrofit.create(ContentService.class);
 
-//        Call<BoardMainRes> call = service.getBoard();
+        Call<BoardMainRes> call = service.getBoard();
         // 파라미터 테스트
-        Call<BoardMainRes> call = service.getBoard(params);
+//        Call<BoardMainRes> call = service.getBoard(params);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override

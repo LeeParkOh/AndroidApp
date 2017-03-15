@@ -12,10 +12,10 @@ import retrofit2.http.Query;
 
 public interface ContentService {
 
-//    @GET("/sample/selectBoardList.do")
-//    Call<BoardMainRes> getBoard();
-    // 파라미터 테스트
     @GET("/sample/selectBoardList.do")
-    Call<BoardMainRes> getBoard(@Query("idx") String tag);
+    Call<BoardMainRes> getBoard();
+    // 파라미터 테스트
+//    @GET("/sample/selectBoardList.do")
+//    Call<BoardMainRes> getBoard(@Query("idx") String tag);
 
 }
