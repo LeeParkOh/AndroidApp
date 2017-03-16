@@ -30,7 +30,7 @@ public class BoardMainActivity extends Activity {
     private BoardMainAdapter bmAdapter;
     private BoardMainRes mBoardMainRes;
 
-    private final String params = "imosty";
+    private final String params = "FEELFOS";
     private final String contetns = "abcdefghijklmnopqrstuvwxyz. ABCDEFGHIJKLMNOPQRSTUVWXYZ. 가나다라마바사아자차카타파하. 1234567890. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ";
 
     @Override
@@ -106,7 +106,7 @@ public class BoardMainActivity extends Activity {
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-        Call<BoardMainRes> call = service.getPostBoard(contetns);
+        Call<BoardMainRes> call = service.getPostBoard(params, contetns);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override

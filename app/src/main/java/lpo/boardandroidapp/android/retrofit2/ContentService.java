@@ -30,5 +30,5 @@ public interface ContentService {
      */
     @FormUrlEncoded
     @POST("/sample/selectBoardList.do")
-    Call<BoardMainRes> getPostBoard(@Field("CONTENTS") String content);
+    Call<BoardMainRes> getPostBoard(@Query("INFO_ID") String tag, @Field("CONTENTS") String content);
 }
