@@ -2,7 +2,10 @@ package lpo.boardandroidapp.android.retrofit2;
 
 import lpo.boardandroidapp.response.BoardMainRes;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -12,10 +15,20 @@ import retrofit2.http.Query;
 
 public interface ContentService {
 
+    /**
+     * Get 방식
+     * @param tag 조회 아이디
+     * @return
+     */
     @GET("/sample/selectBoardList.do")
-    Call<BoardMainRes> getBoard();
-    // 파라미터 테스트
-//    @GET("/sample/selectBoardList.do")
-//    Call<BoardMainRes> getBoard(@Query("idx") String tag);
+    Call<BoardMainRes> getBoard(@Query("INFO_ID") String tag);
 
+    /**
+     * Post 방식
+     * @param content 글 내용
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/sample/selectBoardList.do")
+    Call<BoardMainRes> getPostBoard(@Field("CONTENTS") String content);
 }

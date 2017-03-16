@@ -9,9 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import lpo.boardandroidapp.adapter.BoardMainAdapter;
 import lpo.boardandroidapp.android.retrofit2.ContentService;
 import lpo.boardandroidapp.response.BoardMainRes;
@@ -23,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BoardMainActivity extends Activity {
 
-    protected static final String TAG = "BoardMain  Activity";
-    private final String baseUrl = "http://feelfos.cafe24.com/";
+    protected static final String TAG = "BoardMainActivity";
+    private static final String baseUrl = "http://feelfos.cafe24.com/";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -33,7 +30,8 @@ public class BoardMainActivity extends Activity {
     private BoardMainAdapter bmAdapter;
     private BoardMainRes mBoardMainRes;
 
-    private final String params = "FEELFOS";
+    private final String params = "imosty";
+    private final String contetns = "abcdefghijklmnopqrstuvwxyz. ABCDEFGHIJKLMNOPQRSTUVWXYZ. 가나다라마바사아자차카타파하. 1234567890. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +44,10 @@ public class BoardMainActivity extends Activity {
 
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
-                retrofitTest();
+                // GET
+                retrofitGetTest();
+                // POST
+                retrofitPostTest();
             }
         });
 
@@ -59,8 +60,10 @@ public class BoardMainActivity extends Activity {
 
     }
 
-    // retrofit 테스트
-    public void retrofitTest() {
+    /**
+     * Retrofit2 Get 방식
+     */
+    public void retrofitGetTest() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -69,9 +72,9 @@ public class BoardMainActivity extends Activity {
 
         ContentService service = retrofit.create(ContentService.class);
 
-        Call<BoardMainRes> call = service.getBoard();
+//        Call<BoardMainRes> call = service.getBoard();
         // 파라미터 테스트
-//        Call<BoardMainRes> call = service.getBoard(params);
+        Call<BoardMainRes> call = service.getBoard(params);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override
@@ -92,4 +95,37 @@ public class BoardMainActivity extends Activity {
             }
         });
     }
+
+    /**
+     * Retrofit2 Post 방식
+     */
+    public void retrofitPostTest() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ContentService service = retrofit.create(ContentService.class);
+        Call<BoardMainRes> call = service.getPostBoard(contetns);
+
+        call.enqueue(new Callback<BoardMainRes>() {
+            @Override
+            public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
+                if (response.isSuccessful()) {
+                    mBoardMainRes = response.body();
+                    bmAdapter = new BoardMainAdapter(mBoardMainRes);
+                    mRecyclerView.setAdapter(bmAdapter);
+                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Not Success", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BoardMainRes> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }
