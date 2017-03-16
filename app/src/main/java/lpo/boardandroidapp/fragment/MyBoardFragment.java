@@ -7,4 +7,7 @@ import android.app.Fragment;
  */
 
 public class MyBoardFragment extends Fragment {
+
+    public MyBoardFragment() {
+    }
 }

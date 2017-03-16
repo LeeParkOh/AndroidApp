@@ -17,18 +17,19 @@ public interface ContentService {
 
     /**
      * Get 방식
-     * @param tag 조회 아이디
+     * @param id 조회 아이디
      * @return
      */
     @GET("/sample/selectBoardList.do")
-    Call<BoardMainRes> getBoard(@Query("INFO_ID") String tag);
+    Call<BoardMainRes> getBoard(@Query("INFO_ID") String id);
 
     /**
      * Post 방식
+     * @param id 조회 아이디
      * @param content 글 내용
      * @return
      */
     @FormUrlEncoded
     @POST("/sample/selectBoardList.do")
-    Call<BoardMainRes> getPostBoard(@Query("INFO_ID") String tag, @Field("CONTENTS") String content);
+    Call<BoardMainRes> getPostBoard(@Query("INFO_ID") String id, @Field("CONTENTS") String content);
 }

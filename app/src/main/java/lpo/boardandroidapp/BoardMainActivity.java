@@ -23,33 +23,33 @@ public class BoardMainActivity extends Activity {
     protected static final String TAG = "BoardMainActivity";
     private static final String baseUrl = "http://feelfos.cafe24.com/";
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Button btn;
     private Context mContext;
     private BoardMainAdapter bmAdapter;
     private BoardMainRes mBoardMainRes;
 
-    private final String params = "FEELFOS";
+    // dummy
+    private final String userId = "FEELFOS";
     private final String contetns = "abcdefghijklmnopqrstuvwxyz. ABCDEFGHIJKLMNOPQRSTUVWXYZ. 가나다라마바사아자차카타파하. 1234567890. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board_main);
+        setContentView(R.layout.board_main);
 
-        btn = (Button) findViewById(R.id.send_btn);
-        btn.setOnClickListener(new Button.OnClickListener() {
-            @Override
-
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
-                // GET
-                retrofitGetTest();
-                // POST
-                retrofitPostTest();
-            }
-        });
+//        btn = (Button) findViewById(R.id.send_btn);
+//        btn.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
+//                // GET
+//                retrofitGetTest();
+//                // POST
+//                retrofitPostTest();
+//            }
+//        });
 
         // RecyclerView
         mContext = getApplicationContext();
@@ -74,7 +74,7 @@ public class BoardMainActivity extends Activity {
 
 //        Call<BoardMainRes> call = service.getBoard();
         // 파라미터 테스트
-        Call<BoardMainRes> call = service.getBoard(params);
+        Call<BoardMainRes> call = service.getBoard(userId);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override
@@ -106,7 +106,7 @@ public class BoardMainActivity extends Activity {
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-        Call<BoardMainRes> call = service.getPostBoard(params, contetns);
+        Call<BoardMainRes> call = service.getPostBoard(userId, contetns);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override

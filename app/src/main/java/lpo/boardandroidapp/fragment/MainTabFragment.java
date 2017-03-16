@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import lpo.boardandroidapp.R;
+
 /**
  * Created by leewoonho on 2017. 3. 15..
  */
@@ -24,10 +26,7 @@ public class MainTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
-
-//        View root = inflater.inflate()
-
+        return inflater.inflate(R.layout.board_main, container, false);
     }
 
     @Override
