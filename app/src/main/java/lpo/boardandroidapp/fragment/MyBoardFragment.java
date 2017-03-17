@@ -15,6 +15,8 @@ import lpo.boardandroidapp.R;
 
 public class MyBoardFragment extends Fragment {
 
+    protected static final String TAG = "MyBoardFragment";
+
     public MyBoardFragment() {
     }
 

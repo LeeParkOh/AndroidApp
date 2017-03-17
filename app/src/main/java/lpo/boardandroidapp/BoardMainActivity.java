@@ -33,17 +33,9 @@ public class BoardMainActivity extends AppCompatActivity {
         // Setting the FragmentManager
 
 
-
         // Initializing the Button
         mHomeBtn = (Button) findViewById(R.id.btn_home);
         mWriteBtn = (Button) findViewById(R.id.btn_write);
-
-        mWriteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                open();
-            }
-        });
 
         // Initializing the TabLayout
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -73,16 +65,22 @@ public class BoardMainActivity extends AppCompatActivity {
 
             }
         });
+
+        mWriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
     }
 
-    public void open() {
-        WriteFragment writeFragment = new WriteFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.write_fragment, writeFragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-    }
+//    public void open() {
+//        WriteFragment writeFragment = new WriteFragment();
+//        FragmentManager fm = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//        fragmentTransaction.add(R.id.write_fragment, writeFragment);
+//        fragmentTransaction.addToBackStack(null);
+//        fragmentTransaction.commit();
+//    }
 
 
 }
