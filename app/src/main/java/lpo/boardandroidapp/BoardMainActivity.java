@@ -1,131 +1,88 @@
 package lpo.boardandroidapp;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import lpo.boardandroidapp.adapter.BoardMainAdapter;
-import lpo.boardandroidapp.android.retrofit2.ContentService;
-import lpo.boardandroidapp.response.BoardMainRes;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import lpo.boardandroidapp.adapter.TabPagerAdapter;
+import lpo.boardandroidapp.fragment.WriteFragment;
 
-public class BoardMainActivity extends Activity {
+
+public class BoardMainActivity extends AppCompatActivity {
 
     protected static final String TAG = "BoardMainActivity";
-    private static final String baseUrl = "http://feelfos.cafe24.com/";
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private Button btn;
-    private Context mContext;
-    private BoardMainAdapter bmAdapter;
-    private BoardMainRes mBoardMainRes;
 
-    // dummy
-    private final String userId = "FEELFOS";
-    private final String contetns = "abcdefghijklmnopqrstuvwxyz. ABCDEFGHIJKLMNOPQRSTUVWXYZ. 가나다라마바사아자차카타파하. 1234567890. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ";
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
+    private Button mHomeBtn;
+    private Button mWriteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.board_main);
+        setContentView(R.layout.main_activity);
 
-//        btn = (Button) findViewById(R.id.send_btn);
-//        btn.setOnClickListener(new Button.OnClickListener() {
-//            @Override
-//
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Sending", Toast.LENGTH_SHORT).show();
-//                // GET
-//                retrofitGetTest();
-//                // POST
-//                retrofitPostTest();
-//            }
-//        });
+        Log.d(TAG, "onCreate() savedInstanceState" + savedInstanceState);
 
-        // RecyclerView
-        mContext = getApplicationContext();
-        mRecyclerView = (RecyclerView) findViewById(R.id.main_item_list);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(mContext);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        // Setting the FragmentManager
 
-    }
 
-    /**
-     * Retrofit2 Get 방식
-     */
-    public void retrofitGetTest() {
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        // Initializing the Button
+        mHomeBtn = (Button) findViewById(R.id.btn_home);
+        mWriteBtn = (Button) findViewById(R.id.btn_write);
 
-        ContentService service = retrofit.create(ContentService.class);
-
-//        Call<BoardMainRes> call = service.getBoard();
-        // 파라미터 테스트
-        Call<BoardMainRes> call = service.getBoard(userId);
-
-        call.enqueue(new Callback<BoardMainRes>() {
+        mWriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
-                if (response.isSuccessful()) {
-                    mBoardMainRes = response.body();
-                    bmAdapter = new BoardMainAdapter(mBoardMainRes);
-                    mRecyclerView.setAdapter(bmAdapter);
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not Success", Toast.LENGTH_SHORT).show();
-                }
+            public void onClick(View v) {
+                open();
+            }
+        });
+
+        // Initializing the TabLayout
+        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        mTabLayout.addTab(mTabLayout.newTab().setText("메인"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("내가 쓴 글"));
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        // Initializing & Creating ViewPager
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
+        mViewPager.setAdapter(pagerAdapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
             }
 
             @Override
-            public void onFailure(Call<BoardMainRes> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }
 
-    /**
-     * Retrofit2 Post 방식
-     */
-    public void retrofitPostTest() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        ContentService service = retrofit.create(ContentService.class);
-        Call<BoardMainRes> call = service.getPostBoard(userId, contetns);
-
-        call.enqueue(new Callback<BoardMainRes>() {
-            @Override
-            public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
-                if (response.isSuccessful()) {
-                    mBoardMainRes = response.body();
-                    bmAdapter = new BoardMainAdapter(mBoardMainRes);
-                    mRecyclerView.setAdapter(bmAdapter);
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Not Success", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BoardMainRes> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-            }
-        });
+    public void open() {
+        WriteFragment writeFragment = new WriteFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.write_fragment, writeFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
+
 
 }
