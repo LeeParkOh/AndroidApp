@@ -1,5 +1,6 @@
 package lpo.boardandroidapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import lpo.boardandroidapp.adapter.TabPagerAdapter;
 import lpo.boardandroidapp.fragment.WriteFragment;
@@ -22,6 +24,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private Button mHomeBtn;
     private Button mWriteBtn;
+    private Button mMyContentsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class BoardMainActivity extends AppCompatActivity {
         // Initializing the Button
         mHomeBtn = (Button) findViewById(R.id.btn_home);
         mWriteBtn = (Button) findViewById(R.id.btn_write);
+        mMyContentsBtn = (Button) findViewById(R.id.btn_my_contents);
 
         // Initializing the TabLayout
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -69,18 +73,25 @@ public class BoardMainActivity extends AppCompatActivity {
         mWriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mOnPopupClick(v);
             }
         });
     }
 
-//    public void open() {
-//        WriteFragment writeFragment = new WriteFragment();
-//        FragmentManager fm = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//        fragmentTransaction.add(R.id.write_fragment, writeFragment);
-//        fragmentTransaction.addToBackStack(null);
-//        fragmentTransaction.commit();
-//    }
+    public void mOnPopupClick(View v) {
+        Intent intent = new Intent(this, WritePopupActivity.class);
+        intent.putExtra("data", "Testing");
+        startActivityForResult(intent, 1);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (resultCode==RESULT_OK) {
+                String result = data.getStringExtra("result");
+                Log.d(TAG, "Popup Result = " + result);
+            }
+        }
+    }
 
 }
