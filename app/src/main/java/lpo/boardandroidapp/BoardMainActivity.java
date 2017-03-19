@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import lpo.boardandroidapp.adapter.TabPagerAdapter;
 import lpo.boardandroidapp.fragment.WriteFragment;
 
@@ -42,10 +44,23 @@ public class BoardMainActivity extends AppCompatActivity {
         mMyContentsBtn = (Button) findViewById(R.id.btn_my_contents);
 
         // Initializing the TabLayout
+//        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
+//        mTabLayout.addTab(mTabLayout.newTab().setText("메인"));
+//        mTabLayout.addTab(mTabLayout.newTab().setText("내가 쓴 글"));
+//        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        // 동적 탭 생성 Test
+        ArrayList<String> menuList = new ArrayList<>();
+        menuList.add(0, "test1");
+        menuList.add(1, "test2");
+        menuList.add(2, "test3");
+
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mTabLayout.addTab(mTabLayout.newTab().setText("메인"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("내가 쓴 글"));
+        for (int i = 0 ; i < menuList.size() ; i++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(menuList.get(i)));
+        }
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
 
         // Initializing & Creating ViewPager
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -56,17 +71,14 @@ public class BoardMainActivity extends AppCompatActivity {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -89,7 +101,7 @@ public class BoardMainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode==RESULT_OK) {
                 String result = data.getStringExtra("result");
-                Log.d(TAG, "Popup Result = " + result);
+                Log.d(TAG, "Popup Test = " + result);
             }
         }
     }

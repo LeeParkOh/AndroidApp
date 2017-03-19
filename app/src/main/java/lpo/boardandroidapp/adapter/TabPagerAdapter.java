@@ -27,11 +27,11 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 MainTabFragment mainTabFragment = new MainTabFragment();
                 return mainTabFragment;
-            case 1:
-                MyBoardFragment myBoardFragment = new MyBoardFragment();
-                return myBoardFragment;
+//            case 1:
+//                MyBoardFragment myBoardFragment = new MyBoardFragment();
+//                return myBoardFragment;
             default:
-                return null;
+                return new MyBoardFragment();
         }
     }
 
