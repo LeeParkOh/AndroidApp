@@ -29,6 +29,5 @@ public class BoardMainRes {
         public String crea_dtm;
         @SerializedName("TITLE")
         public String title;
-
     }
 }
