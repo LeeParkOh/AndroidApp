@@ -1,6 +1,7 @@
 package lpo.boardandroidapp.android.retrofit2;
 
 import lpo.boardandroidapp.response.BoardMainRes;
+import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -32,4 +33,13 @@ public interface ContentService {
     @FormUrlEncoded
     @POST("/sample/selectBoardList.do")
     Call<BoardMainRes> getPostBoard(@Query("INFO_ID") String id, @Field("CONTENTS") String content);
+
+    /**
+     * Tab List
+     * @param
+     * @return
+     */
+    @GET("/util/searchCmnCd.do")
+    Call<TabListRes> getTab();
+
 }

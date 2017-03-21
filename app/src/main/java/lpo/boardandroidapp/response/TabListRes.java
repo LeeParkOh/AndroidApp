@@ -11,11 +11,17 @@ public class TabListRes {
 
     protected static final String TAG = "TabListRes";
 
-    @SerializedName("list")
-    public ArrayList<list> list = new ArrayList<>();
+    @SerializedName("ResultCode")
+    public String resultcode;
 
-    public class list {
-        @SerializedName("userYn")
+    @SerializedName("ResultMsg")
+    public String resultmsg;
+
+    @SerializedName("cmnCdList")
+    public ArrayList<cmnCdList> cmnCdList = new ArrayList<>();
+
+    public class cmnCdList {
+        @SerializedName("useYn")
         public String useYn;
         @SerializedName("dtlCd")
         public String dtlCd;
