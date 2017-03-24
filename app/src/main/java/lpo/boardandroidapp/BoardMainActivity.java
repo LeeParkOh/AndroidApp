@@ -9,8 +9,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -45,66 +47,27 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-
         Log.d(TAG, "onCreate() savedInstanceState" + savedInstanceState);
 
-        // Setting the FragmentManager
-
-
-        // Initializing the Button
         mHomeBtn = (Button) findViewById(R.id.btn_home);
         mWriteBtn = (Button) findViewById(R.id.btn_write);
         mMyContentsBtn = (Button) findViewById(R.id.btn_my_contents);
 
-        // Initializing the TabLayout
-//        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-//        mTabLayout.addTab(mTabLayout.newTab().setText("메인"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("내가 쓴 글"));
-//        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        mWriteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnPopupClick(v);
+            }
+        });
 
         new CreateTabTask().execute();
 
-        // 동적 탭 생성 Test
-//        ArrayList<String> menuList = new ArrayList<>();
-//        menuList.add(0, "test1");
-//        menuList.add(1, "test2");
-//        menuList.add(2, "test3");
-//
-//        mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-//        for (int i = 0 ; i < menuList.size() ; i++) {
-//            mTabLayout.addTab(mTabLayout.newTab().setText(menuList.get(i)));
-//        }
-//        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
-        // Initializing & Creating ViewPager
-//        mViewPager = (ViewPager) findViewById(R.id.view_pager);
-//        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
-//        mViewPager.setAdapter(pagerAdapter);
-//        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
-//
-//        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//            }
-//        });
-//
-//        mWriteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mOnPopupClick(v);
-//            }
-//        });
     }
 
+    /**
+     * 글쓰기 팝업 처리
+     * @param v
+     */
     public void mOnPopupClick(View v) {
         Intent intent = new Intent(this, WritePopupActivity.class);
         intent.putExtra("data", "Testing");
@@ -121,6 +84,9 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 서버에서 게시판 종류 리스트를 받아와서 동적 탭 구성에 사용
+     */
     public void getTabList() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
@@ -137,6 +103,10 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 서버를 찔러서 리스트를 받아와야 하기 때문에 UI Thread 말고 별도 Thread 로 분리
+     * 동시에 UI도 갱신해야 하기 때문에 Async 를 사용
+     */
     private class CreateTabTask extends AsyncTask {
 
         @Override
@@ -151,16 +121,18 @@ public class BoardMainActivity extends AppCompatActivity {
             return null;
         }
 
+        // UI 갱신
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-            Log.d(TAG, "testtest = " + mTabListRes.cmnCdList.get(0).dtlCdNm);
             mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
             for (int i = 0 ; i < mTabListRes.cmnCdList.size() ; i ++) {
-                mTabLayout.addTab(mTabLayout.newTab().setText(mTabListRes.cmnCdList.get(i).dtlCdNm));
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.custom_tab_view, null, false);
+                TextView tabText = (TextView) v.findViewById(R.id.tabTextView);
+                tabText.setText(mTabListRes.cmnCdList.get(i).dtlCdNm);
+                mTabLayout.addTab(mTabLayout.newTab().setCustomView(v));
             }
             mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
             mViewPager = (ViewPager) findViewById(R.id.view_pager);
             TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), mTabLayout.getTabCount());
             mViewPager.setAdapter(pagerAdapter);
@@ -179,15 +151,6 @@ public class BoardMainActivity extends AppCompatActivity {
                 public void onTabReselected(TabLayout.Tab tab) {
                 }
             });
-
-            mWriteBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnPopupClick(v);
-                }
-            });
         }
-
     }
-
 }

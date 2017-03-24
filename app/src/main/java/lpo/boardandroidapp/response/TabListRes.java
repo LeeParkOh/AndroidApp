@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
+ * 메인 상위 탭 리스트 받아오는 객체
  * Created by Woonho on 2017. 3. 20..
  */
 

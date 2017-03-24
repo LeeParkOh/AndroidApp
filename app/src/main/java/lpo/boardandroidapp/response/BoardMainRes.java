@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
+ * 메인 게시판 목록 가져오는 객체
  * Created by Woonho on 2017. 3. 12..
  */
 
