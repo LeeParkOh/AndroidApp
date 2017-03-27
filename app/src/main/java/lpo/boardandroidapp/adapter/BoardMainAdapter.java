@@ -31,11 +31,16 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        holder.idxTv.setText("IDX = " + mBoardMainRes.list.get(position).idx);
-        holder.rnumTv.setText("RNUM = " + mBoardMainRes.list.get(position).rnum);
-        holder.hitCntTv.setText("HIT_CNT = " + mBoardMainRes.list.get(position).hit_cnt);
-        holder.creaDtmTv.setText("CREA_DTM = " + mBoardMainRes.list.get(position).crea_dtm);
-        holder.titleTv.setText("TITLE = " + mBoardMainRes.list.get(position).title);
+//        holder.idxTv.setText("IDX = " + mBoardMainRes.list.get(position).boardTilte);
+//        holder.rnumTv.setText("RNUM = " + mBoardMainRes.list.get(position).boardBody1);
+//        holder.hitCntTv.setText("HIT_CNT = " + mBoardMainRes.list.get(position).boardBody2);
+//        holder.creaDtmTv.setText("CREA_DTM = " + mBoardMainRes.list.get(position).boardCd);
+//        holder.titleTv.setText("TITLE = " + mBoardMainRes.list.get(position).regDt);
+
+        holder.titleTv.setText(mBoardMainRes.list.get(position).boardTilte);
+        holder.contentTv.setText(mBoardMainRes.list.get(position).boardBody1);
+        holder.userNameTv.setText(mBoardMainRes.list.get(position).userNm);
+        holder.dateTv.setText(mBoardMainRes.list.get(position).regDt);
 
     }
 
@@ -46,21 +51,18 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView idxTv;
-        public TextView rnumTv;
-        public TextView hitCntTv;
-        public TextView creaDtmTv;
         public TextView titleTv;
+        public TextView contentTv;
+        public TextView userNameTv;
+        public TextView dateTv;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            idxTv = (TextView) itemView.findViewById(R.id.item_view_idx);
-            rnumTv = (TextView) itemView.findViewById(R.id.item_view_rnum);
-            hitCntTv = (TextView) itemView.findViewById(R.id.item_view_hit_cnt);
-            creaDtmTv = (TextView) itemView.findViewById(R.id.item_view_crea_dtm);
-            titleTv = (TextView) itemView.findViewById(R.id.item_view_title);
-
+            titleTv = (TextView) itemView.findViewById(R.id.item_title);
+            contentTv = (TextView) itemView.findViewById(R.id.content1);
+            userNameTv = (TextView) itemView.findViewById(R.id.user_name);
+            dateTv = (TextView) itemView.findViewById(R.id.date);
         }
     }
 }

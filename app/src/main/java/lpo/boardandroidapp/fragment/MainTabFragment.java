@@ -36,21 +36,24 @@ public class MainTabFragment extends Fragment {
     private BoardMainAdapter mBoardMainAdapter;
     private BoardMainRes mBoardMainRes;
 
+    private String boardCd = "";
+
     // dummy
     private final String userId = "FEELFOS";
     private final String contetns = "abcdefghijklmnopqrstuvwxyz. ABCDEFGHIJKLMNOPQRSTUVWXYZ. 가나다라마바사아자차카타파하. 1234567890. ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ";
 
+
     public MainTabFragment() {
     }
 
-    public MainTabFragment(Context context) {
-        mContext = context;
-    }
+//    public MainTabFragment(Context context) {
+//        mContext = context;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        retrofitPostTest();
+        onFetchStart();
     }
 
     @Nullable
@@ -109,14 +112,46 @@ public class MainTabFragment extends Fragment {
     /**
      * Retrofit2 Post 방식
      */
-    public void retrofitPostTest() {
+//    public void retrofitPostTest() {
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl(baseUrl)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build();
+//
+//        ContentService service = retrofit.create(ContentService.class);
+//        Call<BoardMainRes> call = service.getPostBoard(userId, contetns);
+//
+//        call.enqueue(new Callback<BoardMainRes>() {
+//            @Override
+//            public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
+//                if (response.isSuccessful()) {
+//                    Log.d(TAG, "Retrofit Response Success");
+//                    mBoardMainRes = response.body();
+//                    mBoardMainAdapter = new BoardMainAdapter(mBoardMainRes);
+//                    mRecyclerView.setAdapter(mBoardMainAdapter);
+//                } else {
+//                    Log.d(TAG, "Retrofit Response Not Success");
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<BoardMainRes> call, Throwable t) {
+//                Log.d(TAG, "Retrofit Response Failed");
+//            }
+//        });
+//    }
+
+    /**
+     * 게시판 목록 가져오기
+     */
+    public void onFetchStart() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-        Call<BoardMainRes> call = service.getPostBoard(userId, contetns);
+        Call<BoardMainRes> call = service.getPostBoard(boardCd);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override

@@ -25,14 +25,13 @@ public interface ContentService {
     Call<BoardMainRes> getBoard(@Query("INFO_ID") String id);
 
     /**
-     * Post 방식
-     * @param id 조회 아이디
-     * @param content 글 내용
+     * 전체 글 가져오기
+     * @param boardCd 게시판 코드
      * @return
      */
     @FormUrlEncoded
-    @POST("/sample/selectBoardList.do")
-    Call<BoardMainRes> getPostBoard(@Query("INFO_ID") String id, @Field("CONTENTS") String content);
+    @POST("/politics/searchPoliticsBoardInfo.do")
+    Call<BoardMainRes> getPostBoard(@Field("BOARD_CD") String boardCd);
 
     /**
      * Tab List

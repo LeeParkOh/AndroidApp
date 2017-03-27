@@ -11,4 +11,8 @@ public class BaseFragment extends Fragment {
     public BaseFragment() {
     }
 
+    public void onFetchStart() {
+
+    }
+
 }
