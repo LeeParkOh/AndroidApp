@@ -37,28 +37,31 @@
 
         </RelativeLayout>
         
-        <View style="@style/Diveder"/>
+        <View style="@style/Divider"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/click_count_text"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="조회수"/>
+
+            <TextView
+                android:id="@+id/click_count"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/click_count_text"
+                android:text="test"/>
+
+            
+
+        </RelativeLayout>
+
+        <View style="@style/Divider2"/>
         
-        <!--<TextView-->
-            <!--android:id="@+id/item_view_idx"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/item_view_rnum"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/item_view_hit_cnt"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/item_view_crea_dtm"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
-        <!--<TextView-->
-            <!--android:id="@+id/item_view_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"/>-->
     </LinearLayout>
 
 </RelativeLayout>
