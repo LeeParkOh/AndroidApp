@@ -35,10 +35,10 @@ public interface ContentService {
 
     /**
      * Tab List
-     * @param
+     * @param grpCd 그룹 코드
      * @return
      */
     @GET("/util/searchCmnCd.do")
-    Call<TabListRes> getTab();
+    Call<TabListRes> getTab(@Query("grpCd") String grpCd);
 
 }

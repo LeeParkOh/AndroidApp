@@ -93,8 +93,9 @@ public class BoardMainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        String grpCd = "BD001";
         ContentService service = retrofit.create(ContentService.class);
-        Call<TabListRes> call = service.getTab();
+        Call<TabListRes> call = service.getTab(grpCd);
 
         try {
             mTabListRes = call.execute().body();

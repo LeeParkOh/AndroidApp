@@ -13,24 +13,6 @@ public class BoardMainRes {
 
     protected static final String TAG = "BoardMainRes";
 
-//    @SerializedName("total")
-//    public String total;
-//
-//    @SerializedName("list")
-//    public ArrayList<list> list = new ArrayList<>();
-//
-//    public class list {
-//        @SerializedName("IDX")
-//        public String idx;
-//        @SerializedName("RNUM")
-//        public String rnum;
-//        @SerializedName("HIT_CNT")
-//        public String hit_cnt;
-//        @SerializedName("CREA_DTM")
-//        public String crea_dtm;
-//        @SerializedName("TITLE")
-//        public String title;
-//    }
     @SerializedName("ResultCode")
     public String resultCode;
 
@@ -47,8 +29,8 @@ public class BoardMainRes {
         public String boardBody1;
         @SerializedName("replyCnt")
         public String replyCnt;
-        @SerializedName("boardTilte")
-        public String boardTilte;
+        @SerializedName("boardTitle")
+        public String boardTitle;
         @SerializedName("boardBody2")
         public String boardBody2;
         @SerializedName("headSeq")
