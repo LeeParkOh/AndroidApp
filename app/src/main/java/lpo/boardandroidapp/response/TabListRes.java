@@ -13,10 +13,10 @@ public class TabListRes {
     protected static final String TAG = "TabListRes";
 
     @SerializedName("ResultCode")
-    public String resultcode;
+    public String resultCode;
 
     @SerializedName("ResultMsg")
-    public String resultmsg;
+    public String resultMsg;
 
     @SerializedName("cmnCdList")
     public ArrayList<cmnCdList> cmnCdList = new ArrayList<>();

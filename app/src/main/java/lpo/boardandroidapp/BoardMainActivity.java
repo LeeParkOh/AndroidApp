@@ -21,7 +21,9 @@ import java.util.ArrayList;
 import lpo.boardandroidapp.adapter.BoardMainAdapter;
 import lpo.boardandroidapp.adapter.TabPagerAdapter;
 import lpo.boardandroidapp.android.retrofit2.ContentService;
+import lpo.boardandroidapp.fragment.MainTabFragment;
 import lpo.boardandroidapp.fragment.WriteFragment;
+import lpo.boardandroidapp.request.WriteReq;
 import lpo.boardandroidapp.response.BoardMainRes;
 import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
@@ -42,6 +44,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private Button mWriteBtn;
     private Button mMyContentsBtn;
     private TabListRes mTabListRes;
+    private WriteReq mWriteReq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,6 @@ public class BoardMainActivity extends AppCompatActivity {
      */
     public void mOnPopupClick(View v) {
         Intent intent = new Intent(this, WritePopupActivity.class);
-        intent.putExtra("data", "Testing");
         startActivityForResult(intent, 1);
     }
 
@@ -78,8 +80,12 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode==RESULT_OK) {
-                String result = data.getStringExtra("result");
-                Log.d(TAG, "Popup Test = " + result);
+                String title = data.getStringExtra("input_title_text");
+                String content = data.getExtras().getString("input_content_text");
+                Log.d(TAG, "title test = " + title);
+                Log.d(TAG, "content test = " + content);
+
+                onBoardUpdate(title, content);
             }
         }
     }
@@ -102,6 +108,41 @@ public class BoardMainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void onBoardUpdate(final String title, final String content) {
+
+        new AsyncTask<Void, Void, String>() {
+            @Override
+            protected String doInBackground(Void... params) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(baseUrl)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ContentService service = retrofit.create(ContentService.class);
+                Call<WriteReq> call = service.getInsertResult("", "", "001", "I", title, content, "");
+
+                try {
+                    mWriteReq = call.execute().body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+
+                Log.d(TAG, "Result Code = " + mWriteReq.resultCode);
+                Log.d(TAG, "Result Message = " + mWriteReq.resultMsg);
+
+                MainTabFragment mtFragment = new MainTabFragment();
+                mtFragment.onFetchStart();
+            }
+        }.execute();
+
     }
 
     /**

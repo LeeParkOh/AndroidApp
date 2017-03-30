@@ -30,11 +30,11 @@ public class MainTabFragment extends Fragment {
     protected static final String TAG = "MainTabFragment";
     private static final String baseUrl = "http://feelfos.cafe24.com/";
 
-    private Context mContext;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private BoardMainAdapter mBoardMainAdapter;
-    private BoardMainRes mBoardMainRes;
+    private static Context mContext;
+    private static RecyclerView mRecyclerView;
+    private static RecyclerView.LayoutManager mLayoutManager;
+    private static BoardMainAdapter mBoardMainAdapter;
+    private static BoardMainRes mBoardMainRes;
 
     private String boardCd = "";
 
@@ -108,38 +108,6 @@ public class MainTabFragment extends Fragment {
             }
         });
     }
-
-    /**
-     * Retrofit2 Post 방식
-     */
-//    public void retrofitPostTest() {
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(baseUrl)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        ContentService service = retrofit.create(ContentService.class);
-//        Call<BoardMainRes> call = service.getPostBoard(userId, contetns);
-//
-//        call.enqueue(new Callback<BoardMainRes>() {
-//            @Override
-//            public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
-//                if (response.isSuccessful()) {
-//                    Log.d(TAG, "Retrofit Response Success");
-//                    mBoardMainRes = response.body();
-//                    mBoardMainAdapter = new BoardMainAdapter(mBoardMainRes);
-//                    mRecyclerView.setAdapter(mBoardMainAdapter);
-//                } else {
-//                    Log.d(TAG, "Retrofit Response Not Success");
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<BoardMainRes> call, Throwable t) {
-//                Log.d(TAG, "Retrofit Response Failed");
-//            }
-//        });
-//    }
 
     /**
      * 게시판 목록 가져오기

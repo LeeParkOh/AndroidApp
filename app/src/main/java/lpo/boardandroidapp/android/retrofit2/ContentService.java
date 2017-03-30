@@ -1,5 +1,6 @@
 package lpo.boardandroidapp.android.retrofit2;
 
+import lpo.boardandroidapp.request.WriteReq;
 import lpo.boardandroidapp.response.BoardMainRes;
 import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
@@ -40,5 +41,27 @@ public interface ContentService {
      */
     @GET("/util/searchCmnCd.do")
     Call<TabListRes> getTab(@Query("grpCd") String grpCd);
+
+    /**
+     * Write Insert
+     * @param userId 유저 아이디
+     * @param userNm 유저 닉네임
+     * @param boardCd 게시판 코드 (Not Null)
+     * @param boardTitle 글쓰기 타이틀 (Not Null)
+     * @param boardActiveFg 편집 유형 (Not Null)
+     * @param boardBody1 글쓰기 내용1 (Not Null)
+     * @param boardBody2 글쓰기 내용2
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/politics/insertBoard.do")
+    Call<WriteReq> getInsertResult(
+            @Field("userId") String userId,
+            @Field("userNm") String userNm,
+            @Field("boardCd") String boardCd,
+            @Field("boardTitle") String boardTitle,
+            @Field("boardActiveFg") String boardActiveFg,
+            @Field("boardBody1") String boardBody1,
+            @Field("boardBody2") String boardBody2);
 
 }
