@@ -121,7 +121,7 @@ public class BoardMainActivity extends AppCompatActivity {
                         .build();
 
                 ContentService service = retrofit.create(ContentService.class);
-                Call<WriteReq> call = service.getInsertResult("", "", "001", "I", title, content, "");
+                Call<WriteReq> call = service.getInsertResult("", "", "001", title, "I", content, "");
 
                 try {
                     mWriteReq = call.execute().body();
