@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,19 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import lpo.boardandroidapp.adapter.BoardMainAdapter;
 import lpo.boardandroidapp.adapter.TabPagerAdapter;
 import lpo.boardandroidapp.android.retrofit2.ContentService;
 import lpo.boardandroidapp.fragment.MainTabFragment;
-import lpo.boardandroidapp.fragment.WriteFragment;
 import lpo.boardandroidapp.request.WriteReq;
-import lpo.boardandroidapp.response.BoardMainRes;
 import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -36,7 +28,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BoardMainActivity extends AppCompatActivity {
 
     protected static final String TAG = "BoardMainActivity";
-    private static final String baseUrl = "http://feelfos.cafe24.com/";
+    private static final String URL = "http://feelfos.cafe24.com/";
+    private static final String EXTR_TITLEARG = "input_title_text";
+    private static final String EXTR_CONTENTARG = "input_content_text";
+    public static final String EXTR_IDARG = "input_id_text";
+    public static final String EXTR_PWARG = "input_pw_text";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -59,7 +55,14 @@ public class BoardMainActivity extends AppCompatActivity {
         mWriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnPopupClick(v);
+                onWritePopupClick(v);
+            }
+        });
+
+        mMyContentsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLogingPopupClick(v);
             }
         });
 
@@ -71,21 +74,30 @@ public class BoardMainActivity extends AppCompatActivity {
      * 글쓰기 팝업 처리
      * @param v
      */
-    public void mOnPopupClick(View v) {
+    public void onWritePopupClick(View v) {
         Intent intent = new Intent(this, WritePopupActivity.class);
         startActivityForResult(intent, 1);
+    }
+
+    public void onLogingPopupClick(View v) {
+        Intent intent = new Intent(this, LoginPopupActivity.class);
+        startActivityForResult(intent, 2);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
-            if (resultCode==RESULT_OK) {
-                String title = data.getStringExtra("input_title_text");
-                String content = data.getExtras().getString("input_content_text");
-                Log.d(TAG, "title test = " + title);
-                Log.d(TAG, "content test = " + content);
-
+            if (resultCode == RESULT_OK) {
+                String title = data.getStringExtra(EXTR_TITLEARG);
+                String content = data.getExtras().getString(EXTR_CONTENTARG);
                 onBoardUpdate(title, content);
+            }
+        } else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                String id = data.getStringExtra(EXTR_IDARG);
+                String pw = data.getStringExtra(EXTR_PWARG);
+
+                Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -95,7 +107,7 @@ public class BoardMainActivity extends AppCompatActivity {
      */
     public void getTabList() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -110,13 +122,18 @@ public class BoardMainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 새로 고침
+     * @param title
+     * @param content
+     */
     public void onBoardUpdate(final String title, final String content) {
 
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(baseUrl)
+                        .baseUrl(URL)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 

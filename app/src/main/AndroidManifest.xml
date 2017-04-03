@@ -21,6 +21,11 @@
         <activity
             android:name=".WritePopupActivity">
         </activity>
+
+        <activity
+            android:name=".LoginPopupActivity">
+        </activity>
+
     </application>
 
 </manifest>
