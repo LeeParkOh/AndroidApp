@@ -18,8 +18,8 @@ public class LoginPopupActivity extends AppCompatActivity{
     protected static final String TAG = "LoginPopupActivity";
     private EditText idEdit;
     private EditText pwEdit;
-    private final String idArg = "input_id_text";
-    private final String pwArg = "input_pw_text";
+    private final String EXTR_ID_ARG = "EXTR_ID_ARG";
+    private final String EXTR_PW_ARG = "EXTR_PW_ARG";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,8 +43,8 @@ public class LoginPopupActivity extends AppCompatActivity{
                 String pwText = pwEdit.getText().toString();
 
                 Intent intent = new Intent();
-                intent.putExtra(idArg, idText);
-                intent.putExtra(pwArg, pwText);
+                intent.putExtra(EXTR_ID_ARG, idText);
+                intent.putExtra(EXTR_PW_ARG, pwText);
                 setResult(RESULT_OK, intent);
 
                 finish();

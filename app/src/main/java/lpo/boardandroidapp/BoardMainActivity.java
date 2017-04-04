@@ -29,10 +29,10 @@ public class BoardMainActivity extends AppCompatActivity {
 
     protected static final String TAG = "BoardMainActivity";
     private static final String URL = "http://feelfos.cafe24.com/";
-    private static final String EXTR_TITLEARG = "input_title_text";
-    private static final String EXTR_CONTENTARG = "input_content_text";
-    public static final String EXTR_IDARG = "input_id_text";
-    public static final String EXTR_PWARG = "input_pw_text";
+    private static final String EXTR_TITLE_ARG = "EXTR_TITLE_ARG";
+    private static final String EXTR_CONTENT_ARG = "EXTR_CONTENT_ARG";
+    public static final String EXTR_ID_ARG = "EXTR_ID_ARG";
+    public static final String EXTR_PW_ARG = "EXTR_PW_ARG";
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -88,14 +88,14 @@ public class BoardMainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                String title = data.getStringExtra(EXTR_TITLEARG);
-                String content = data.getExtras().getString(EXTR_CONTENTARG);
+                String title = data.getStringExtra(EXTR_TITLE_ARG);
+                String content = data.getExtras().getString(EXTR_CONTENT_ARG);
                 onBoardUpdate(title, content);
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                String id = data.getStringExtra(EXTR_IDARG);
-                String pw = data.getStringExtra(EXTR_PWARG);
+                String id = data.getStringExtra(EXTR_ID_ARG);
+                String pw = data.getStringExtra(EXTR_PW_ARG);
 
                 Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
             }

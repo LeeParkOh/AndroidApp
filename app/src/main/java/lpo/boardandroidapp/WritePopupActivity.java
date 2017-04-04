@@ -18,8 +18,8 @@ public class WritePopupActivity extends AppCompatActivity {
     protected static final String TAG = "WritePopupActivity";
     private EditText titleEdit;
     private EditText contentEdit;
-    private final String titleArg = "input_title_text";
-    private final String contentArg = "input_content_text";
+    private final String EXTR_TITLE_ARG = "EXTR_TITLE_ARG";
+    private final String EXTR_CONTENT_ARG = "EXTR_CONTENT_ARG";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class WritePopupActivity extends AppCompatActivity {
                 String contentText = contentEdit.getText().toString();
 
                 Intent intent = new Intent();
-                intent.putExtra(titleArg, titleText);
-                intent.putExtra(contentArg, contentText);
+                intent.putExtra(EXTR_TITLE_ARG, titleText);
+                intent.putExtra(EXTR_CONTENT_ARG, contentText);
                 setResult(RESULT_OK, intent);
 
                 finish();
