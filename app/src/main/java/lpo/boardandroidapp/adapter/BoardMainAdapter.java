@@ -14,7 +14,10 @@ import lpo.boardandroidapp.response.BoardMainRes;
 
 public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.ViewHolder>{
 
+    protected static final String TAG = "BoardMainAdapter";
     private BoardMainRes mBoardMainRes;
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_FOOTER = 2;
 
     public BoardMainAdapter(BoardMainRes boardMainRes) {
         mBoardMainRes = boardMainRes;
@@ -24,8 +27,21 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
-        ViewHolder vh = new ViewHolder(v);
+        ViewHolder vh = new ViewHolder(v, viewType);
         return vh;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (isPositionFooter(position)) {
+            return TYPE_FOOTER;
+        }
+        return TYPE_ITEM;
+    }
+
+    public boolean isPositionFooter(int position) {
+        int i = mBoardMainRes.list.size();
+        return position == i;
     }
 
     @Override
@@ -41,7 +57,7 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
 
     @Override
     public int getItemCount() {
-        return mBoardMainRes.list.size();
+        return mBoardMainRes.list.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -53,7 +69,7 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
         public TextView clickCountTv;
         public TextView replyCountTv;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, int viewType) {
             super(itemView);
 
             titleTv = (TextView) itemView.findViewById(R.id.item_title);
