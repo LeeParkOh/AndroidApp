@@ -1,5 +1,6 @@
 package lpo.boardandroidapp.android.retrofit2;
 
+import lpo.boardandroidapp.request.LoginReq;
 import lpo.boardandroidapp.request.WriteReq;
 import lpo.boardandroidapp.response.BoardMainRes;
 import lpo.boardandroidapp.response.TabListRes;
@@ -63,5 +64,9 @@ public interface ContentService {
             @Field("boardActiveFg") String boardActiveFg,
             @Field("boardBody1") String boardBody1,
             @Field("boardBody2") String boardBody2);
+
+    @FormUrlEncoded
+    @POST("/user/userLoginRequest.do")
+    Call<LoginReq> getToken(@Field("userId") String userId, @Field("userPw") String userPw);
 
 }

@@ -15,12 +15,17 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import lpo.boardandroidapp.adapter.BoardMainAdapter;
 import lpo.boardandroidapp.adapter.TabPagerAdapter;
 import lpo.boardandroidapp.android.retrofit2.ContentService;
 import lpo.boardandroidapp.fragment.MainTabFragment;
+import lpo.boardandroidapp.request.LoginReq;
 import lpo.boardandroidapp.request.WriteReq;
+import lpo.boardandroidapp.response.BoardMainRes;
 import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -41,6 +46,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private Button mMyContentsBtn;
     private TabListRes mTabListRes;
     private WriteReq mWriteReq;
+    private LoginReq mLoginReq;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,10 +100,46 @@ public class BoardMainActivity extends AppCompatActivity {
             }
         } else if (requestCode == 2) {
             if (resultCode == RESULT_OK) {
-                String id = data.getStringExtra(EXTR_ID_ARG);
-                String pw = data.getStringExtra(EXTR_PW_ARG);
+                String userId = data.getStringExtra(EXTR_ID_ARG);
+                String userPw = data.getStringExtra(EXTR_PW_ARG);
 
-                Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, userId + "||" + userPw, Toast.LENGTH_LONG).show();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                ContentService service = retrofit.create(ContentService.class);
+                Call<LoginReq> call = service.getToken(userId, userPw);
+
+                call.enqueue(new Callback<LoginReq>() {
+                    @Override
+                    public void onResponse(Call<LoginReq> call, Response<LoginReq> response) {
+                        if (response.isSuccessful()) {
+                            Log.d(TAG, "Retrofit Response Success");
+                            mLoginReq = response.body();
+//                            Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
+//                            Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
+
+                            Log.d(TAG, "Login ResultCode = " + mLoginReq.resultCode);
+                            Log.d(TAG, "Login token = " + mLoginReq.token);
+                            Log.d(TAG, "Login ResultMsg = " + mLoginReq.resultMsg);
+
+
+//                            mBoardMainAdapter = new BoardMainAdapter(mBoardMainRes);
+//                            mRecyclerView.setAdapter(mBoardMainAdapter);
+                        } else {
+                            Log.d(TAG, "Retrofit Response Not Success");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginReq> call, Throwable t) {
+                        Log.d(TAG, "Retrofit Response Failed");
+                    }
+                });
+
             }
         }
     }
