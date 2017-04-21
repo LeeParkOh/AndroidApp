@@ -12,10 +12,11 @@ import lpo.boardandroidapp.response.BoardMainRes;
  * Created by leewoonho on 2017. 3. 13..
  */
 
-public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.ViewHolder>{
+public class BoardMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     protected static final String TAG = "BoardMainAdapter";
     private BoardMainRes mBoardMainRes;
+    private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_FOOTER = 2;
 
@@ -24,11 +25,16 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
-        ViewHolder vh = new ViewHolder(v, viewType);
-        return vh;
+        if (viewType == TYPE_ITEM) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
+            return new ItemViewHolder(v);
+        } else if (viewType == TYPE_FOOTER) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_footer, parent, false);
+            return new FooterViewHolder(v);
+        }
+        return null;
     }
 
     @Override
@@ -45,14 +51,21 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        holder.titleTv.setText(mBoardMainRes.list.get(position).boardTitle);
-        holder.contentTv.setText(mBoardMainRes.list.get(position).boardBody1);
-        holder.userNameTv.setText(mBoardMainRes.list.get(position).userNm);
-        holder.dateTv.setText(mBoardMainRes.list.get(position).regDt);
-        holder.clickCountTv.setText(mBoardMainRes.list.get(position).boardSearchCnt);
-        holder.replyCountTv.setText(mBoardMainRes.list.get(position).replyCnt);
+        if (holder instanceof FooterViewHolder) {
+            FooterViewHolder fvh = (FooterViewHolder) holder;
+        } else if (holder instanceof ItemViewHolder) {
+            ItemViewHolder hd = (ItemViewHolder) holder;
+
+            hd.titleTv.setText(mBoardMainRes.list.get(position).boardTitle);
+            hd.contentTv.setText(mBoardMainRes.list.get(position).boardBody1);
+            hd.userNameTv.setText(mBoardMainRes.list.get(position).userNm);
+            hd.dateTv.setText(mBoardMainRes.list.get(position).regDt);
+            hd.clickCountTv.setText(mBoardMainRes.list.get(position).boardSearchCnt);
+            hd.replyCountTv.setText(mBoardMainRes.list.get(position).replyCnt);
+        }
+
     }
 
     @Override
@@ -60,7 +73,7 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
         return mBoardMainRes.list.size() + 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ItemViewHolder extends RecyclerView.ViewHolder{
 
         public TextView titleTv;
         public TextView contentTv;
@@ -69,7 +82,7 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
         public TextView clickCountTv;
         public TextView replyCountTv;
 
-        public ViewHolder(View itemView, int viewType) {
+        public ItemViewHolder(View itemView) {
             super(itemView);
 
             titleTv = (TextView) itemView.findViewById(R.id.item_title);
@@ -78,6 +91,13 @@ public class BoardMainAdapter extends RecyclerView.Adapter<BoardMainAdapter.View
             dateTv = (TextView) itemView.findViewById(R.id.date);
             clickCountTv = (TextView) itemView.findViewById(R.id.click_count);
             replyCountTv = (TextView) itemView.findViewById(R.id.reply_count);
+        }
+    }
+
+    public class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        public FooterViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }

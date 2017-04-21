@@ -76,6 +76,10 @@ public class BoardMainActivity extends AppCompatActivity {
 
     }
 
+    public void checkLogin() {
+
+    }
+
     /**
      * 글쓰기 팝업 처리
      * @param v
@@ -103,7 +107,7 @@ public class BoardMainActivity extends AppCompatActivity {
                 String userId = data.getStringExtra(EXTR_ID_ARG);
                 String userPw = data.getStringExtra(EXTR_PW_ARG);
 
-                Toast.makeText(this, userId + "||" + userPw, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, userId + " || " + userPw, Toast.LENGTH_LONG).show();
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(URL)
@@ -119,8 +123,6 @@ public class BoardMainActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             Log.d(TAG, "Retrofit Response Success");
                             mLoginReq = response.body();
-//                            Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
-//                            Toast.makeText(this, id + "||" + pw, Toast.LENGTH_LONG).show();
 
                             Log.d(TAG, "Login ResultCode = " + mLoginReq.resultCode);
                             Log.d(TAG, "Login token = " + mLoginReq.token);
@@ -139,7 +141,6 @@ public class BoardMainActivity extends AppCompatActivity {
                         Log.d(TAG, "Retrofit Response Failed");
                     }
                 });
-
             }
         }
     }
