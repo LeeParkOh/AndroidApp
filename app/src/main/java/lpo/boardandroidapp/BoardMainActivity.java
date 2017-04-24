@@ -1,6 +1,7 @@
 package lpo.boardandroidapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -47,6 +48,8 @@ public class BoardMainActivity extends AppCompatActivity {
     private TabListRes mTabListRes;
     private WriteReq mWriteReq;
     private LoginReq mLoginReq;
+    private SharedPreferences spf;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +79,40 @@ public class BoardMainActivity extends AppCompatActivity {
 
     }
 
-    public void checkLogin() {
+    /**
+     * 토큰 존재 유무로 로그인 확인 메서드
+     * @return
+     */
+    public boolean checkLogin() {
+        if (spf == null) {
+            return false;
+        }
+        String token = spf.getString("user-token", "0");
+        if (token.equals("0")) {
+            return false;
+        }
+        return true;
+    }
 
+    /**
+     * token 삭제 (아직 사용 X)
+     */
+    public void deleteToken() {
+        editor = spf.edit();
+        editor.remove("user-token");
+        editor.commit();
+    }
+
+    /**
+     * 토큰 받아서 Preference에 저장
+     * @param token 서버에서 받아온 토큰
+     */
+    public void setPreferences(String token) {
+        Log.d(TAG, "token check = " + token);
+        spf = getSharedPreferences("token", MODE_PRIVATE);
+        editor = spf.edit();
+        editor.putString("user-token", token);
+        editor.commit();
     }
 
     /**
@@ -85,6 +120,9 @@ public class BoardMainActivity extends AppCompatActivity {
      * @param v
      */
     public void onWritePopupClick(View v) {
+        if (!(checkLogin())) {
+            return;
+        }
         Intent intent = new Intent(this, WritePopupActivity.class);
         startActivityForResult(intent, 1);
     }
@@ -127,7 +165,7 @@ public class BoardMainActivity extends AppCompatActivity {
                             Log.d(TAG, "Login ResultCode = " + mLoginReq.resultCode);
                             Log.d(TAG, "Login token = " + mLoginReq.token);
                             Log.d(TAG, "Login ResultMsg = " + mLoginReq.resultMsg);
-
+                            setPreferences(mLoginReq.token);
 
 //                            mBoardMainAdapter = new BoardMainAdapter(mBoardMainRes);
 //                            mRecyclerView.setAdapter(mBoardMainAdapter);

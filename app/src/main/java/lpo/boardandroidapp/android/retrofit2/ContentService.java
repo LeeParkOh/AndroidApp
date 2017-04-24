@@ -33,7 +33,7 @@ public interface ContentService {
      */
     @FormUrlEncoded
     @POST("/politics/searchPoliticsBoardInfo.do")
-    Call<BoardMainRes> getPostBoard(@Field("BOARD_CD") String boardCd);
+    Call<BoardMainRes> getPostBoard(@Field("boardCd") String boardCd);
 
     /**
      * Tab List
