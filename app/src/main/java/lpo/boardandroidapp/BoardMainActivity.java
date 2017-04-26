@@ -60,7 +60,7 @@ public class BoardMainActivity extends AppCompatActivity {
         mHomeBtn = (Button) findViewById(R.id.btn_home);
         mWriteBtn = (Button) findViewById(R.id.btn_write);
         mMyContentsBtn = (Button) findViewById(R.id.btn_my_contents);
-
+        spf = getSharedPreferences("token", MODE_PRIVATE);
         mWriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +109,6 @@ public class BoardMainActivity extends AppCompatActivity {
      */
     public void setPreferences(String token) {
         Log.d(TAG, "token check = " + token);
-        spf = getSharedPreferences("token", MODE_PRIVATE);
         editor = spf.edit();
         editor.putString("user-token", token);
         editor.commit();
