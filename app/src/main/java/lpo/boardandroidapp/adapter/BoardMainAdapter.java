@@ -1,6 +1,7 @@
 package lpo.boardandroidapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,41 +22,51 @@ public class BoardMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_FOOTER = 2;
 
     public BoardMainAdapter(BoardMainRes boardMainRes) {
+        Log.d(TAG, "BoardMainAdapter");
         mBoardMainRes = boardMainRes;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        Log.d(TAG, "RecyclerView.ViewHolder >>> 1");
         if (viewType == TYPE_ITEM) {
+            Log.d(TAG, "RecyclerView.ViewHolder >>> 2");
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
             return new ItemViewHolder(v);
         } else if (viewType == TYPE_FOOTER) {
+            Log.d(TAG, "RecyclerView.ViewHolder >>> 3");
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_footer, parent, false);
             return new FooterViewHolder(v);
         }
+        Log.d(TAG, "RecyclerView.ViewHolder >>> 4");
         return null;
     }
 
     @Override
     public int getItemViewType(int position) {
+        Log.d(TAG, "RecyclerView.getItemViewType >>> 1");
         if (isPositionFooter(position)) {
+            Log.d(TAG, "RecyclerView.getItemViewType >>> 2");
             return TYPE_FOOTER;
         }
+        Log.d(TAG, "RecyclerView.getItemViewType >>> 3");
         return TYPE_ITEM;
     }
 
     public boolean isPositionFooter(int position) {
+        Log.d(TAG, "isPositionFooter >>> 1");
         int i = mBoardMainRes.list.size();
         return position == i;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        Log.d(TAG, "onBindViewHolder >>> 1");
         if (holder instanceof FooterViewHolder) {
+            Log.d(TAG, "onBindViewHolder >>> 2");
             FooterViewHolder fvh = (FooterViewHolder) holder;
         } else if (holder instanceof ItemViewHolder) {
+            Log.d(TAG, "onBindViewHolder >>> 3");
             ItemViewHolder hd = (ItemViewHolder) holder;
 
             hd.titleTv.setText(mBoardMainRes.list.get(position).boardTitle);
@@ -70,6 +81,7 @@ public class BoardMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
+        Log.d(TAG, "getItemCount >>> 1");
         return mBoardMainRes.list.size() + 1;
     }
 
@@ -81,10 +93,9 @@ public class BoardMainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView dateTv;
         public TextView clickCountTv;
         public TextView replyCountTv;
-
         public ItemViewHolder(View itemView) {
             super(itemView);
-
+            Log.d(TAG, "ItemViewHolder >>> 1");
             titleTv = (TextView) itemView.findViewById(R.id.item_title);
             contentTv = (TextView) itemView.findViewById(R.id.content1);
             userNameTv = (TextView) itemView.findViewById(R.id.user_name);

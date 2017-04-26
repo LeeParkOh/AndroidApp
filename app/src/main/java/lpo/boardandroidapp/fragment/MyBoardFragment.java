@@ -1,5 +1,6 @@
 package lpo.boardandroidapp.fragment;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ public class MyBoardFragment extends BaseFragment {
 
     public MyBoardFragment() {
     }
+    @SuppressLint("ValidFragment")
     public MyBoardFragment(int position) {
         mPosition = position;
     }
