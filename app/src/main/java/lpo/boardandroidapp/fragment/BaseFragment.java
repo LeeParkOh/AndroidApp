@@ -33,7 +33,6 @@ public class BaseFragment extends Fragment {
     private static BoardMainAdapter mBoardMainAdapter;
     private static BoardMainRes mBoardMainRes;
     private String boardCd = "";
-
     public BaseFragment() {
     }
 
@@ -45,16 +44,14 @@ public class BaseFragment extends Fragment {
     public String setBoardCd(int position) {
 
         int i = position;
-        Log.d(TAG, "setBoardCd  >>>>"+  i);
-        boardCd = "00" + String.valueOf(i);
-        Log.d(TAG, "boardCd  >>>>"+  boardCd);
+        String boardCd = "00" + String.valueOf(i);
         return boardCd;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(TAG, "onViewCreated  1");
+
         // RecyclerView
         mRecyclerView = (RecyclerView) view.findViewById(R.id.main_item_list);
         mRecyclerView.setHasFixedSize(true);
@@ -66,20 +63,17 @@ public class BaseFragment extends Fragment {
      * 게시판 목록 가져오기
      */
     public void onFetchStart() {
-        Log.d(TAG, "onFetchStart  1");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ContentService service = retrofit.create(ContentService.class);
-        Log.d(TAG, "onFetchStart boardCd  >>>>"+  boardCd);
         Call<BoardMainRes> call = service.getPostBoard(boardCd);
 
         call.enqueue(new Callback<BoardMainRes>() {
             @Override
             public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
-                Log.d(TAG, "onFetchStart  2");
                 if (response.isSuccessful()) {
                     Log.d(TAG, "Retrofit Response Success");
                     mBoardMainRes = response.body();
