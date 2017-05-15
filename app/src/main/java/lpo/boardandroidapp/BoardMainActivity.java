@@ -50,6 +50,7 @@ public class BoardMainActivity extends AppCompatActivity {
     private LoginReq mLoginReq;
     private SharedPreferences spf;
     private SharedPreferences.Editor editor;
+    private String mToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +62,18 @@ public class BoardMainActivity extends AppCompatActivity {
         mWriteBtn = (Button) findViewById(R.id.btn_write);
         mMyContentsBtn = (Button) findViewById(R.id.btn_my_contents);
         spf = getSharedPreferences("token", MODE_PRIVATE);
+
+        mToken = spf.getString("user-token", "0");
+        Log.d(TAG, "mToken = " + mToken);
+
         mWriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onWritePopupClick(v);
+                if (checkLogin()) {
+                    onWritePopupClick(v);
+                } else {
+                    onLogingPopupClick(v);
+                }
             }
         });
 
@@ -87,8 +96,7 @@ public class BoardMainActivity extends AppCompatActivity {
         if (spf == null) {
             return false;
         }
-        String token = spf.getString("user-token", "0");
-        if (token.equals("0")) {
+        if (mToken.equals("0")) {
             return false;
         }
         return true;
@@ -109,8 +117,19 @@ public class BoardMainActivity extends AppCompatActivity {
      */
     public void setPreferences(String token) {
         Log.d(TAG, "token check = " + token);
+
+        if (token.equals("fail")) {
+            return;
+        }
+
+        if (mToken.equals(token)) {
+            return;
+        }
+
+        mToken = token;
+
         editor = spf.edit();
-        editor.putString("user-token", token);
+        editor.putString("user-token", mToken);
         editor.commit();
     }
 
