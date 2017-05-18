@@ -38,6 +38,7 @@ public class MainTabFragment extends Fragment {
     private String boardCd = "";
 
     public MainTabFragment() {
+        Log.d(TAG, "MainTabFragment");
     }
 
 //    public MainTabFragment(Context context) {
@@ -46,6 +47,7 @@ public class MainTabFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         onFetchStart();
     }
@@ -53,13 +55,14 @@ public class MainTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         return inflater.inflate(R.layout.tab_main_board, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Log.d(TAG, "onViewCreated");
         // RecyclerView
         mRecyclerView = (RecyclerView) view.findViewById(R.id.main_item_list);
         mRecyclerView.setHasFixedSize(true);
@@ -71,6 +74,7 @@ public class MainTabFragment extends Fragment {
      * 게시판 목록 가져오기
      */
     public void onFetchStart() {
+        Log.d(TAG, "onFetchStart");
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -82,18 +86,22 @@ public class MainTabFragment extends Fragment {
         call.enqueue(new Callback<BoardMainRes>() {
             @Override
             public void onResponse(Call<BoardMainRes> call, Response<BoardMainRes> response) {
+                Log.d(TAG, "onResponse");
                 if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse  2");
                     Log.d(TAG, "Retrofit Response Success");
                     mBoardMainRes = response.body();
                     mBoardMainAdapter = new BoardMainAdapter(mBoardMainRes);
                     mRecyclerView.setAdapter(mBoardMainAdapter);
                 } else {
+                    Log.d(TAG, "onResponse  3");
                     Log.d(TAG, "Retrofit Response Not Success");
                 }
             }
 
             @Override
             public void onFailure(Call<BoardMainRes> call, Throwable t) {
+                Log.d(TAG, "onFailure");
                 Log.d(TAG, "Retrofit Response Failed");
             }
         });

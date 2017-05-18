@@ -44,7 +44,7 @@ public class BaseFragment extends Fragment {
     public String setBoardCd(int position) {
 
         int i = position;
-        boardCd = "00" + String.valueOf(i);
+        String boardCd = "00" + String.valueOf(i);
         return boardCd;
     }
 
