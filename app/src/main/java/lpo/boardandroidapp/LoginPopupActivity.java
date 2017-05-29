@@ -80,7 +80,7 @@ public class LoginPopupActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getBaseContext , NewUserPopupActivity.class);
+                Intent intent = new Intent(getApplicationContext() , NewUserPopupActivity.class);
                 startActivityForResult(intent, 2);
 
             }
