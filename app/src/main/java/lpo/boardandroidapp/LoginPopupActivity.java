@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,13 +15,9 @@ import java.io.IOException;
 
 import lpo.boardandroidapp.android.retrofit2.ContentService;
 import lpo.boardandroidapp.request.LoginReq;
-import lpo.boardandroidapp.response.TabListRes;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
 /**
  * Created by leewoonho on 2017. 4. 3..
  */
@@ -78,6 +73,16 @@ public class LoginPopupActivity extends AppCompatActivity{
 //                } else {
 //                    Toast.makeText(getBaseContext(), "아이디 또는 비밀번호가 맞지 않습니다.", Toast.LENGTH_LONG).show();
 //                }
+            }
+        });
+
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getBaseContext , NewUserPopupActivity.class);
+                startActivityForResult(intent, 2);
+
             }
         });
     }

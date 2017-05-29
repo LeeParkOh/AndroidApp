@@ -22,6 +22,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewUserPopupActivity extends AppCompatActivity{
 
@@ -50,10 +54,9 @@ public class NewUserPopupActivity extends AppCompatActivity{
         pwEdit = (EditText) findViewById(R.id.et_pw);               //pw
         pwCntEdit = (EditText) findViewById(R.id.et_pw_cnf);        //pw 확인
         emailEdit = (EditText) findViewById(R.id.et_email);         //email
-        nicknameEdit = (EditText) findViewById(R.id.et_nickname);   //닉네임
+        nicknameEdit = (EditText) findViewById(R.id.et_nickname);   //별명
 
-
-
+        //저장버튼 클릭시
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -64,18 +67,36 @@ public class NewUserPopupActivity extends AppCompatActivity{
                 String emailText = emailEdit.getText().toString();
                 String nicknameText= nicknameEdit.getText().toString();
 
+
+                //아이디 확인
+                if(idText.length() > 3){
+                    Toast.makeText(getBaseContext(), "ID는 4자리 이상 입력해야 합니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+               //아이디 중복확인 수정중
+
+
                 //비밀번호 확인 절차
                 if(pwText.length() > 3){
                     //경고창
+                    Toast.makeText(getBaseContext(), "비밀번호는 4자리 이상 입력해야 합니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
                 if(!pwText.equals(pwCntText)){
                     //경고창
+                    Toast.makeText(getBaseContext(), "입력한 비밀번호가 일치 하지 않습니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
-
-
-
+                if(!isValidEmail(emailText)){
+                    //경고창
+                    Toast.makeText(getBaseContext(), "이메일 형식을 확인 해주십시오.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(nicknameText.length() > 10){
+                    //경고창
+                    Toast.makeText(getBaseContext(), "닉네임은 10자리 이하로 입력해야 합니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 Intent intent = new Intent();
                 intent.putExtra(EXTR_ID_ARG, idText);
@@ -87,11 +108,28 @@ public class NewUserPopupActivity extends AppCompatActivity{
         });
 
         //close 버튼 클릭시
-        closeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+                closeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getBaseContext(), "닫기", Toast.LENGTH_LONG).show();
+                        finish();
             }
         });
     }
+
+
+    /**
+     * Comment  : 정상적인 이메일 인지 검증.
+     */
+    public static boolean isValidEmail(String email) {
+        boolean err = false;
+        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(email);
+        if(m.matches()) {
+            err = true;
+        }
+        return err;
+    }
+
 }
