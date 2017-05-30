@@ -18,8 +18,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -43,7 +45,7 @@ public class NewUserPopupActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.popup_new_user);
 
         //버튼값 매핑
@@ -55,7 +57,7 @@ public class NewUserPopupActivity extends AppCompatActivity{
         pwCntEdit = (EditText) findViewById(R.id.et_pw_cnf);        //pw 확인
         emailEdit = (EditText) findViewById(R.id.et_email);         //email
         nicknameEdit = (EditText) findViewById(R.id.et_nickname);   //별명
-
+        //idEdit.setFilters(new InputFilter[]{filterAlphaNum});
         //저장버튼 클릭시
         saveBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -67,9 +69,8 @@ public class NewUserPopupActivity extends AppCompatActivity{
                 String emailText = emailEdit.getText().toString();
                 String nicknameText= nicknameEdit.getText().toString();
 
-
                 //아이디 확인
-                if(idText.length() > 3){
+                if(idText.length() < 4){
                     Toast.makeText(getBaseContext(), "ID는 4자리 이상 입력해야 합니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -77,7 +78,7 @@ public class NewUserPopupActivity extends AppCompatActivity{
 
 
                 //비밀번호 확인 절차
-                if(pwText.length() > 3){
+                if(pwText.length() < 4){
                     //경고창
                     Toast.makeText(getBaseContext(), "비밀번호는 4자리 이상 입력해야 합니다.", Toast.LENGTH_LONG).show();
                     return;
@@ -132,4 +133,14 @@ public class NewUserPopupActivity extends AppCompatActivity{
         return err;
     }
 
+    protected InputFilter filterAlphaNum = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+            Pattern ps = Pattern.compile("^[a-zA-Z0-9]+$");
+            if(!ps.matcher(source).matches()){
+                return "";
+            }
+            return null;
+        }
+    };
 }

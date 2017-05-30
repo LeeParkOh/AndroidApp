@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -79,9 +80,10 @@ public class LoginPopupActivity extends AppCompatActivity{
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(getBaseContext , NewUserPopupActivity.class);
-                startActivityForResult(intent, 2);
+                Log.d(TAG, "signupBtn.setOnClickListener");
+                Intent intent = new Intent(getBaseContext() , NewUserPopupActivity.class);
+                //setResult(RESULT_OK, intent);
+                startActivity(intent);
 
             }
         });
